@@ -1,0 +1,1610 @@
+/* ===================================================================
+   isolatieglasservice.nl – landing page (orange #F58220 + navy #1E2A38)
+   Pure HTML + CSS, geen JavaScript.
+   Alle classes prefixed "ig-"
+   =================================================================== */
+:root {
+  --ig-orange: #F58220;
+  --ig-orange-dark: #E06D10;
+  --ig-orange-deep: #C95E08;
+  --ig-orange-soft: #FDEBDC;
+  --ig-navy: #1E2A38;
+  --ig-navy-2: #2A3B4E;
+  --ig-footer: #16202B;
+  --ig-ink: #1F2A37;
+  --ig-body: #556270;
+  --ig-muted: #8A94A0;
+  --ig-bg-soft: #F5F6F8;
+  --ig-border: #E7EAEE;
+  --ig-star: #FFB400;
+  --ig-wa: #25D366;
+  --ig-radius: 12px;
+  --ig-radius-lg: 16px;
+  --ig-shadow: 0 10px 30px rgba(30, 42, 56, .08);
+  --ig-shadow-lg: 0 24px 60px rgba(30, 42, 56, .12);
+  --ig-section-pad: 88px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ig-body);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4 { color: var(--ig-ink); font-weight: 700; letter-spacing: -.015em; }
+
+section[id] { scroll-margin-top: 16px; }
+
+::selection { background: var(--ig-orange); color: #fff; }
+
+/* kleine helper: svg-icoon */
+.ic {
+  width: 1.1em;
+  height: 1.1em;
+  display: inline-block;
+  vertical-align: -.18em;
+  flex: 0 0 auto;
+}
+
+/* container */
+.ig-container {
+  width: min(1200px, 100% - 48px);
+  margin-inline: auto;
+}
+
+.ig-accent { color: var(--ig-orange); }
+
+/* ==================================================================
+   BUTTONS
+   ================================================================== */
+.ig-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  font-family: inherit;
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: .72rem 1.35rem;
+  border-radius: 8px;   /* blokvorm met licht afgeronde hoeken */
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all .18s ease;
+}
+.ig-btn .ic { font-size: 1em; }
+
+.ig-btn-orange {
+  background: var(--ig-orange);
+  border-color: var(--ig-orange);
+  color: #fff;
+}
+.ig-btn-orange:hover,
+.ig-btn-orange:focus-visible {
+  background: var(--ig-orange-dark);
+  border-color: var(--ig-orange-dark);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(245, 130, 32, .35);
+}
+
+.ig-btn-dark {
+  background: var(--ig-navy);
+  border-color: var(--ig-navy);
+  color: #fff;
+}
+.ig-btn-dark:hover,
+.ig-btn-dark:focus-visible {
+  background: var(--ig-navy-2);
+  border-color: var(--ig-navy-2);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* in de hero: telefoonknop met witte rand */
+.ig-hero .ig-btn-dark {
+  border-color: #fff;
+}
+.ig-hero .ig-btn-dark:hover,
+.ig-hero .ig-btn-dark:focus-visible {
+  border-color: #fff;
+}
+
+.ig-btn-outline {
+  background: #fff;
+  border-color: var(--ig-orange);
+  color: var(--ig-orange);
+}
+.ig-btn-outline:hover,
+.ig-btn-outline:focus-visible {
+  background: var(--ig-orange);
+  color: #fff;
+}
+
+.ig-btn-ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, .6);
+  color: #fff;
+}
+.ig-btn-ghost:hover,
+.ig-btn-ghost:focus-visible {
+  background: #fff;
+  border-color: #fff;
+  color: var(--ig-navy);
+}
+
+.ig-btn-sm { font-size: .72rem; padding: .48rem .9rem; }
+.ig-btn-lg { font-size: 1rem; padding: .95rem 1.7rem; }
+.ig-btn-block { width: 100%; }
+
+:focus-visible { outline: 3px solid rgba(245, 130, 32, .45); outline-offset: 2px; }
+
+/* ==================================================================
+   HEADER (sticky, wit) – mobiel menu via checkbox-hack, dus geen JS
+   ================================================================== */
+.ig-nav-toggle { position: absolute; opacity: 0; pointer-events: none; }
+
+.ig-header {
+  position: relative;   /* niet sticky: scrolt gewoon mee met de pagina */
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 1px solid #F0F2F5;
+}
+.ig-header-in {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 66px;
+}
+
+.ig-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  text-decoration: none;
+  flex: 0 0 auto;
+}
+.ig-brand-img {
+  height: 48px;          /* onderwerp vult ±55% van de jpg, dus iets groter */
+  width: auto;
+  display: block;
+}
+.ig-brand-txt { line-height: 1.15; }
+.ig-brand-name {
+  display: block;
+  font-size: .92rem;
+  font-weight: 800;
+  color: var(--ig-ink);        /* volledig donker, geen oranje */
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+.ig-brand-tag {
+  display: block;
+  font-size: .5rem;
+  font-weight: 600;
+  letter-spacing: .18em;
+  color: #6B7683;              /* donkergrijze tagline */
+  white-space: nowrap;
+}
+
+/* tabs: duidelijk meer afstand tot het logo en ruime tussenruimte,
+   zodat de lege ruimte vóór de knop klein blijft */
+.ig-nav { margin-left: 2.6rem; }
+.ig-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 1.05rem;
+  list-style: none;
+}
+.ig-nav-link {
+  display: block;
+  font-size: .76rem;
+  font-weight: 500;
+  color: #3C4753;
+  text-decoration: none;
+  padding: .45rem .1rem;
+  white-space: nowrap;          /* tabs blijven altijd op één regel */
+  transition: color .15s ease;
+}
+.ig-nav-link:hover { color: var(--ig-orange); }
+
+.ig-header-cta {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* telefoonnummer: gewone donkere tekst met icoon, geen knop */
+.ig-nav-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .8rem;
+  font-weight: 700;
+  color: var(--ig-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+.ig-nav-phone:hover { color: var(--ig-orange); }
+
+/* burger (label) – alleen zichtbaar < 992px */
+.ig-burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  color: var(--ig-ink);
+  cursor: pointer;
+  font-size: 1.5rem;
+  order: 9;
+}
+.ig-burger:hover { color: var(--ig-orange); background: #FDF3EA; }
+.ig-burger .ic-close { display: none; }
+
+/* mobiel menu */
+.ig-mobnav {
+  display: none;
+}
+
+/* ==================================================================
+   HERO
+   ================================================================== */
+.ig-hero {
+  position: relative;
+  background:
+    linear-gradient(90deg,
+      rgba(11, 19, 31, .96) 0%,
+      rgba(11, 19, 31, .96) 36%,
+      rgba(11, 19, 31, .74) 46%,
+      rgba(11, 19, 31, .46) 56%,
+      rgba(11, 19, 31, .20) 66%,
+      rgba(11, 19, 31, 0) 76%),
+    url("../assets/hero.jpg") center / cover no-repeat,
+    #22354a;
+  color: #fff;
+  padding: 100px 0 56px;   /* hero eindigt kort na de trust-rij */
+  overflow: hidden;
+}
+
+/* script-badge: oranje, twee regels, geen underline */
+.ig-hero-script {
+  display: inline-block;
+  font-family: 'Caveat', cursive;
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #F58220;
+  transform: rotate(-1.5deg);
+  margin-bottom: 1.05rem;
+}
+.ig-hero-title {
+  color: #fff;
+  font-size: clamp(2.3rem, 4.6vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -.02em;
+  margin-bottom: 1.6rem;
+}
+/* eerste twee regels: minder bold; laatste regel: extra bold + oranje */
+.ig-hero-title-light { font-weight: 600; color: #fff; }
+.ig-hero-title-strong { font-weight: 800; color: var(--ig-orange); }
+
+.ig-hero-list {
+  list-style: none;
+  max-width: 34rem;
+  margin-bottom: 2rem;
+}
+.ig-hero-list li {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: .98rem;
+  font-weight: 500;
+  color: #F2F5F8;
+  padding: .32rem 0;
+}
+.ig-hero-list .ic { width: 22px; height: 22px; color: var(--ig-orange); }
+
+.ig-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.7rem;
+}
+
+/* trust-regel met dunne scheidingslijntjes */
+.ig-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.ig-hero-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  font-size: .88rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, .92);
+}
+.ig-hero-trust span + span {
+  border-left: 1px solid rgba(255, 255, 255, .28);
+  padding-left: 1.4rem;
+  margin-left: 1.4rem;
+}
+.ig-hero-trust .ic { width: 17px; height: 17px; color: var(--ig-orange); }
+
+/* handgeschreven annotatie: rechtsonder in de hoek; de staart van de pijl
+   begint bij "Een" en de pijl buigt omhoog naar de monteur in de foto */
+.ig-hero-note {
+  position: absolute;
+  right: 40px;
+  bottom: 46px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: .2rem;
+  font-family: 'Caveat', cursive;
+  font-size: 1.5rem;
+  line-height: 1.28;
+  font-weight: 600;
+  color: #ffffff;
+  transform: rotate(-2deg);
+}
+.ig-hero-note svg {
+  position: absolute;
+  right: 100%;             /* pijl links van de tekst, staart op "Een" */
+  bottom: 100%;
+  width: 78px;
+  height: 82px;
+  color: #fff;
+  margin-bottom: -3px;     /* staart raakt precies de "Een"-regel */
+  margin-right: -2px;
+}
+
+/* ==================================================================
+   USP-STRIP (4 kolommen)
+   ================================================================== */
+.ig-usp { padding: 42px 0 46px; background: #fff; }
+
+.ig-usp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.ig-usp-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: .4rem 1.6rem;
+}
+.ig-usp-item + .ig-usp-item { border-left: 1px solid var(--ig-border); }
+.ig-usp-item:first-child { padding-left: 0; }
+
+.ig-usp-ico {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  color: var(--ig-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ig-usp-ico .ic { width: 32px; height: 32px; }
+.ig-usp-img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+  border-radius: 6px;
+}
+
+.ig-usp-item h3 { font-size: .95rem; margin-bottom: .15rem; }
+.ig-usp-item p { font-size: .84rem; color: var(--ig-muted); }
+
+/* ==================================================================
+   SECTIE-KOPPEN
+   ================================================================== */
+.ig-h2 {
+  font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+  margin-bottom: .8rem;
+}
+.ig-lead {
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 1.4rem;
+}
+
+.ig-sec-head { text-align: center; max-width: 46rem; margin: 0 auto 2.6rem; }
+.ig-sec-head p { color: var(--ig-muted); }
+
+/* kicker: gewone oranje tekst, geen kader */
+.ig-kicker {
+  display: block;
+  color: var(--ig-orange);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: .8rem;
+}
+
+/* ==================================================================
+   VOORDEEL (media + tekst + formulier)
+   ================================================================== */
+.ig-voordeel { padding: 44px 0 24px; background: #fff; }
+
+.ig-voordeel-grid {
+  display: grid;
+  grid-template-columns: 440px 1fr 375px;
+  gap: 1.8rem;
+  align-items: stretch;   /* afbeelding even hoog als het formulier */
+}
+
+/* media: afgeronde hoeken, geen kader, iets compacter */
+.ig-voordeel-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 560px;
+  border-radius: var(--ig-radius-lg);
+  overflow: hidden;
+}
+.ig-voordeel-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;   /* niets bijsnijden: hele foto zichtbaar */
+  border-radius: var(--ig-radius-lg);
+}
+
+/* tekst */
+.ig-checks { list-style: none; }
+.ig-checks li {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #3C4753;
+  padding: .34rem 0;
+}
+.ig-checks .ic { width: 20px; height: 20px; color: var(--ig-orange); }
+
+/* formulier */
+.ig-form-card {
+  background: #fff;
+  border: 1px solid var(--ig-border);
+  border-radius: var(--ig-radius-lg);
+  padding: 1.6rem 1.6rem 1.4rem;
+  box-shadow: var(--ig-shadow-lg);
+  position: sticky;
+  top: 100px;
+  align-self: start;       /* natuurlijke hoogte, niet uitrekken */
+}
+.ig-form-card h3 {
+  font-size: 1.62rem;
+  font-weight: 800;
+  line-height: 1.22;
+  letter-spacing: -.015em;
+  margin-bottom: .45rem;
+}
+.ig-form-sub {
+  font-size: .9rem;
+  font-weight: 400;
+  color: var(--ig-muted);
+  margin-bottom: 1.1rem;
+}
+
+/* invoerveld: alleen placeholder + icoon, geen label erboven */
+.ig-form-card label.ig-field {
+  position: relative;
+  display: block;
+  margin-bottom: .78rem;
+}
+.ig-field .ic {
+  position: absolute;
+  left: .85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #9AA4AE;
+  pointer-events: none;
+}
+.ig-field input,
+.ig-field select {
+  width: 100%;
+  font-family: inherit;
+  font-size: .9rem;
+  color: var(--ig-ink);
+  background: #FBFCFD;
+  border: 1px solid #D8DEE5;
+  border-radius: 10px;
+  padding: .72rem .9rem .72rem 2.5rem;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+/* dropdown: eigen chevron rechts, geen icoon links;
+   "Type woning" toont grijs als placeholder, gekozen waarde wordt donker */
+.ig-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-left: .9rem;
+  padding-right: 2.2rem;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236B7683' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right .9rem center;
+  background-size: 12px;
+}
+.ig-field select:invalid { color: #9AA4AE; }   /* placeholder-grijs */
+.ig-field select option { color: var(--ig-ink); }
+.ig-field select:focus {
+  outline: none;
+  border-color: var(--ig-orange);
+  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16);
+  background-color: #fff;
+}
+.ig-form-card input::placeholder { color: #AEB7C0; }
+.ig-form-card input:focus {
+  outline: none;
+  border-color: var(--ig-orange);
+  box-shadow: 0 0 0 3px rgba(245, 130, 32, .16);
+  background: #fff;
+}
+
+/* twee korte notities op één regel onder de knop */
+.ig-form-notes {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .8rem;
+  margin-top: .85rem;
+  font-size: .7rem;
+  color: var(--ig-muted);
+  white-space: nowrap;
+}
+.ig-form-notes span {
+  display: inline-flex;
+  align-items: center;
+  gap: .38rem;
+}
+.ig-form-notes .ic { width: 14px; height: 14px; color: var(--ig-orange); }
+
+/* ==================================================================
+   TARIEVEN (kostenkaarten)
+   ================================================================== */
+.ig-tarieven {
+  background: #fff;   /* wit, geen grijze band */
+  padding: 38px 0 36px;
+}
+/* kop van deze sectie: links uitgelijnd, volledig zwart */
+.ig-tarieven .ig-sec-head {
+  text-align: left;
+  max-width: none;
+  margin: 0 0 2.4rem;
+}
+.ig-tarieven .ig-sec-head p { color: var(--ig-ink); }
+
+.ig-price-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+/* prijskaart volgens referentie: foto boven, inhoud met 20px padding */
+.ig-price-card {
+  background: #fff;
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+}
+
+.ig-price-imgwrap {
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+.ig-price-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ig-price-content { padding: 20px; }
+
+.ig-price-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+.ig-price-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ig-price-label {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ig-ink);
+}
+.ig-price-area {
+  margin: 0;
+  font-size: .85rem;
+  font-weight: 500;
+  color: #4B5563;
+}
+.ig-price-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.ig-price-vanaf {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--ig-orange);
+}
+.ig-price {
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -.5px;
+  color: var(--ig-orange);
+}
+.ig-price-desc {
+  margin: 0;
+  font-size: .9rem;
+  line-height: 1.5;
+  font-weight: 500;
+  color: #374151;
+}
+
+/* ==================================================================
+   SUBSIDIE
+   ================================================================== */
+/* ==================================================================
+   SUBSIDIE & WARMTEFONDS – witte kaart, links foto met tekst,
+   rechts voordelen (volgens referentiecode)
+   ================================================================== */
+.ig-subsidie {
+  padding: 10px 0 56px;   /* sluit aan op de sectie erboven */
+  background: #fff;
+}
+
+.ig-subsidie-card {
+  display: flex;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -1px rgba(0, 0, 0, .06);
+}
+
+/* linkerkolom met achtergrondfoto */
+.ig-subsidie-left {
+  flex: 1.1;
+  padding: 48px 48px 48px 32px;   /* kleinere linkermarge voor tekst en knoppen */
+  background-image: url("../assets/subsidie-bg.jpg");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ig-subsidie-left h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  color: var(--ig-ink);
+  margin-bottom: 16px;
+  max-width: 90%;
+}
+.ig-subsidie-left p {
+  font-size: 1.05rem;
+  color: var(--ig-ink);   /* zwarte tekst */
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 95%;
+}
+
+.ig-sub-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.ig-sub-btn-primary {
+  background: var(--ig-orange);
+  border: 2px solid var(--ig-orange);
+  color: #fff;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.ig-sub-btn-primary:hover,
+.ig-sub-btn-primary:focus-visible {
+  background: var(--ig-orange-dark);
+  border-color: var(--ig-orange-dark);
+  color: #fff;
+}
+.ig-sub-btn-secondary {
+  background: #fff;   /* wit, niet transparant */
+  border: 1px solid var(--ig-orange);
+  color: var(--ig-ink);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: .8rem;
+  font-weight: 700;
+}
+.ig-sub-btn-secondary:hover,
+.ig-sub-btn-secondary:focus-visible {
+  background: rgba(249, 115, 22, .06);
+  color: var(--ig-ink);
+}
+
+/* rechterkolom met voordelen */
+.ig-subsidie-right {
+  flex: .9;
+  padding: 48px;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ig-sub-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  margin-bottom: 24px;
+}
+.ig-sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.ig-sub-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.ig-sub-ico {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ig-orange);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.ig-sub-ico .ic { width: 20px; height: 20px; }
+.ig-sub-item h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.ig-sub-item p {
+  font-size: .95rem;
+  color: #4B5563;
+  line-height: 1.5;
+}
+
+/* ==================================================================
+   HOE HET WERKT – oranje nummer + donker icoon per stap (referentie)
+   ================================================================== */
+.ig-stappen {
+  background: var(--ig-bg-soft);
+  padding: 44px 0 12px;
+}
+
+.ig-stappen-head { margin-bottom: 26px; }
+.ig-stappen-head h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  margin-bottom: 8px;
+}
+.ig-stappen-head p {
+  font-size: 1.05rem;
+  color: #4B5563;
+}
+
+.ig-steps2 {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ig-step2 {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.ig-step2-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.ig-step2-num {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  background: var(--ig-orange);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+}
+.ig-step2-svg {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  color: var(--ig-ink);
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ig-step2-svg-check { stroke-width: 3; }
+
+.ig-step2 h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+.ig-step2 p {
+  font-size: .95rem;
+  color: #4B5563;
+  line-height: 1.5;
+}
+
+.ig-step2-sep {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+  flex: 0 0 auto;
+}
+.ig-step2-sep .ic {
+  width: 24px;
+  height: 24px;
+  color: #CBD5E1;
+}
+
+/* ==================================================================
+   WERKGEBIED
+   ================================================================== */
+/* ==================================================================
+   WERKGEBIED – provincies links, kaart midden, plaatsen rechts
+   (sectie-achtergrond exact gelijk aan de kaartafbeelding #F6F7FB)
+   ================================================================== */
+.ig-werkgebied {
+  padding: 6px 0 8px;
+  background: #F6F7F9;   /* exact gelijk aan de achtergrondkleur van de kaart */
+}
+
+.ig-werkgebied-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.ig-wg-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.ig-wg-left h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+.ig-wg-left p {
+  font-size: 1.125rem;
+  color: #475569;
+  margin-bottom: 8px;
+}
+
+.ig-wg-regions {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;   /* minder ruimte tussen de provincies */
+}
+.ig-wg-regions li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  color: var(--ig-ink);
+}
+.ig-wg-regions .ic {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  color: var(--ig-orange);
+}
+
+.ig-wg-map {
+  flex: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ig-wg-map img {
+  height: 470px;          /* groter/langer */
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.ig-wg-card {
+  flex: 1;
+  background: #F6F7F9;   /* zelfde kleur als de sectie: geen zichtbaar kader */
+  border-radius: 12px;
+  padding: 24px;
+}
+.ig-wg-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+.ig-wg-cities {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+}
+.ig-wg-cities span {
+  font-size: .9rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* ==================================================================
+   REVIEWS
+   ================================================================== */
+/* ==================================================================
+   REVIEWS – oranje sterren, witte kaarten op gebroken-wit (referentie)
+   ================================================================== */
+.ig-reviews {
+  background: #FAFAF9;
+  padding: 8px 0 44px;   /* weinig afstand tot de sectie erboven */
+}
+
+.ig-reviews-head2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.ig-reviews-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ig-reviews-title-row h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+}
+.ig-reviews-rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: #4B5563;
+}
+.ig-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--ig-orange);
+}
+.ig-stars .ic { width: 20px; height: 20px; }
+
+.ig-reviews-link {
+  color: var(--ig-orange);
+  font-weight: 600;
+  font-size: .95rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+}
+.ig-reviews-link:hover { opacity: .8; color: var(--ig-orange); }
+
+.ig-review-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.ig-review-card {
+  background: #fff;
+  border: 1px solid #F3F4F6;
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .05), 0 2px 4px -1px rgba(0, 0, 0, .03);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ig-review-card .ig-stars .ic { width: 18px; height: 18px; }
+
+.ig-quote {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #4B5563;
+  flex: 1 1 auto;
+}
+
+.ig-review-author2 {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 8px;
+}
+.ig-review-name { font-weight: 600; color: var(--ig-ink); font-size: .95rem; }
+.ig-review-place { color: #6B7280; font-size: .9rem; }
+
+/* ==================================================================
+   FAQ (native <details> – zonder JS)
+   ================================================================== */
+/* ==================================================================
+   FAQ – witte kaartjes op lichte grijze achtergrond (referentie),
+   dropdown via native <details>
+   ================================================================== */
+.ig-faq {
+  padding: 26px 0 56px;
+  background: #F8F9FB;
+}
+/* geen eigen maximale breedte: zelfde container als alle andere secties */
+
+.ig-faq-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -.025em;
+  margin-bottom: 24px;
+}
+
+.ig-faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.ig-faq-item {
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.ig-faq-item:hover,
+.ig-faq-item[open] {
+  border-color: #D1D5DB;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .05), 0 2px 4px -1px rgba(0, 0, 0, .03);
+}
+
+.ig-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 16px 20px;
+  font-size: .95rem;
+  font-weight: 500;
+  color: var(--ig-ink);
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+.ig-faq-q::-webkit-details-marker { display: none; }
+.ig-faq-q .ic {
+  width: 18px;
+  height: 18px;
+  color: #374151;
+  transition: transform .25s ease;
+}
+.ig-faq-item[open] .ig-faq-q .ic { transform: rotate(180deg); }
+
+.ig-faq-a { padding: 0 20px 16px; }
+.ig-faq-a p { font-size: .9rem; line-height: 1.7; color: var(--ig-body); }
+
+/* ==================================================================
+   FINAL CTA-BANNER – fotostrip met donkerblauw effect (als de hero),
+   logo + tekst links, knoppen rechts (referentie); hoogte 40px boven/onder
+   ================================================================== */
+.ig-cta {
+  width: 100%;
+  background-image:
+    linear-gradient(90deg,
+      rgba(11, 19, 31, 0) 0%,
+      rgba(11, 19, 31, .88) 18%,
+      rgba(11, 19, 31, .88) 82%,
+      rgba(11, 19, 31, 0) 100%),
+    url("../assets/cta-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.ig-cta-in {
+  max-width: 1300px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.ig-cta-left {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;    /* tekst + logo richting rechts... */
+  margin-right: 9%;     /* ...maar iets terug naar links */
+}
+.ig-cta-logo {
+  flex: 0 0 auto;
+  width: 116px;
+  height: 116px;
+}
+.ig-cta-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ig-cta-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ig-cta-title {
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+.ig-cta-sub {
+  color: #D1D5DB;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.ig-cta-feats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+.ig-cta-feats li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #D1D5DB;
+  font-size: .95rem;
+  font-weight: 500;
+}
+.ig-cta-feats .ic {
+  width: 20px;
+  height: 20px;
+  color: var(--ig-orange);
+}
+
+/* knoppen: oranje knop boven, telefoon + WhatsApp daaronder naast elkaar */
+.ig-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;   /* oranje knop links uitgelijnd op de telefoonknop */
+  gap: 10px;
+  margin-right: -12px;   /* iets naar rechts */
+}
+/* oranje en telefoonknop even breed */
+.ig-cta .ig-cta-btn {
+  min-width: 262px;
+  justify-content: center;
+}
+.ig-cta-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ig-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: .85rem;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+.ig-cta-btn-orange {
+  background: var(--ig-orange);
+  color: #fff;
+}
+.ig-cta-btn-orange:hover {
+  background: var(--ig-orange-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.ig-cta-btn-outline {
+  background: rgba(255, 255, 255, .05);
+  color: #fff;
+  border: 1.5px solid #D1D5DB;
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+.ig-cta-btn-outline:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: #fff;
+  color: #fff;
+}
+.ig-cta-wa {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--ig-wa);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  transition: all .2s ease;
+}
+.ig-cta-wa .ic { width: 22px; height: 22px; }
+.ig-cta-wa:hover {
+  background: #20BA5A;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+/* ==================================================================
+   FOOTER – wit, logo + contact + links op één regel (referentie)
+   ================================================================== */
+.ig-footer {
+  background: #fff;
+  border-top: 1px solid #E5E7EB;
+  padding: 24px 20px;
+  width: 100%;
+}
+
+.ig-footer-in {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.ig-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ig-footer-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.ig-footer-brandtxt {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ig-footer-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--ig-ink);
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+.ig-footer-tag {
+  font-size: .65rem;
+  font-weight: 700;
+  color: #4B5563;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.ig-footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.ig-footer-citem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--ig-ink);
+}
+.ig-footer-citem .ic {
+  width: 18px;
+  height: 18px;
+  color: #4B5563;
+}
+
+.ig-footer-links {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: .9rem;
+  font-weight: 500;
+}
+.ig-footer-links a {
+  color: #4B5563;
+  text-decoration: none;
+  transition: color .2s ease;
+}
+.ig-footer-links a:hover {
+  color: var(--ig-ink);
+  text-decoration: underline;
+}
+.ig-footer-sep { color: #D1D5DB; }
+
+/* ==================================================================
+   ZWEVENDE WHATSAPP-KNOP
+   ================================================================== */
+.ig-wa {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 900;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--ig-wa);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 12px 30px rgba(37, 211, 102, .45);
+  transition: transform .18s ease;
+}
+.ig-wa .ic { width: 30px; height: 30px; }
+.ig-wa:hover { transform: scale(1.07); color: #fff; }
+
+/* ==================================================================
+   RESPONSIVE
+   ================================================================== */
+
+/* ---- < 1120px: header iets compacter ---- */
+@media (max-width: 1119.98px) {
+  .ig-header-in { gap: .8rem; }
+  /* kolommen stapelen: de middelste tekstkolom is naast foto + formulier te smal */
+  .ig-voordeel-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+}
+
+/* ---- < 992px: mobiel menu (checkbox-hack), grids stapelen ---- */
+@media (max-width: 991.98px) {
+  .ig-nav, .ig-header-cta { display: none; }
+  .ig-burger { display: inline-flex; margin-left: auto; }
+
+  .ig-mobnav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-bottom: 1px solid var(--ig-border);
+    box-shadow: 0 24px 48px rgba(30, 42, 56, .14);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  #igNavToggle:checked ~ .ig-header .ig-mobnav { max-height: 620px; }
+  #igNavToggle:checked ~ .ig-header .ig-burger .ic-open { display: none; }
+  #igNavToggle:checked ~ .ig-header .ig-burger .ic-close { display: inline-block; }
+
+  .ig-mobnav ul { list-style: none; padding: .6rem 1.4rem; }
+  .ig-mobnav ul a {
+    display: block;
+    font-size: .95rem;
+    font-weight: 600;
+    color: #3C4753;
+    text-decoration: none;
+    padding: .68rem .2rem;
+    border-bottom: 1px solid #F0F2F5;
+  }
+  .ig-mobnav ul a:hover { color: var(--ig-orange); }
+  .ig-mobnav-cta {
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    padding: 1rem 1.4rem 1.3rem;
+  }
+
+  .ig-hero { padding: 88px 0 48px; }
+  .ig-hero-note { display: none; }
+
+  .ig-usp-grid { grid-template-columns: repeat(2, 1fr); gap: 1.6rem 0; }
+  .ig-usp-item { padding: 0 1.4rem; }
+  .ig-usp-item:nth-child(odd) { padding-left: 0; border-left: none; }
+  .ig-usp-item:nth-child(even) { border-left: 1px solid var(--ig-border); }
+
+  .ig-voordeel-grid { grid-template-columns: 1fr; }
+  .ig-voordeel-media { height: 420px; }
+  .ig-form-card { position: static; }
+
+  .ig-price-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .ig-subsidie-card { flex-direction: column; }
+  .ig-subsidie-left {
+    padding: 40px 24px;
+    background-position: bottom right;
+  }
+  .ig-subsidie-left h2,
+  .ig-subsidie-left p { max-width: 100%; }
+  .ig-subsidie-right { padding: 40px 24px; }
+
+  .ig-steps2 { flex-direction: column; gap: 22px; }
+  .ig-step2-sep { transform: rotate(90deg); margin: 0 auto; padding-top: 0; }
+
+  .ig-werkgebied-in { flex-direction: column; gap: 40px; }
+  .ig-wg-left, .ig-wg-map, .ig-wg-card { width: 100%; text-align: center; }
+  .ig-wg-left { align-items: center; }
+  .ig-wg-regions { align-items: flex-start; text-align: left; width: max-content; margin: 0 auto; }
+
+  .ig-faq-grid { grid-template-columns: 1fr; }
+  .ig-review-grid { grid-template-columns: repeat(2, 1fr); }
+  .ig-cta-in { flex-direction: column; align-items: flex-start; }
+  .ig-cta-left { margin-left: 0; margin-right: 0; }
+  .ig-cta-actions { width: 100%; align-items: flex-start; }
+  .ig-footer-in { flex-direction: column; align-items: flex-start; gap: 32px; }
+  .ig-footer-links {
+    border-top: 1px solid #E5E7EB;
+    padding-top: 16px;
+    width: 100%;
+  }
+
+  /* mobiel: eigen mobiele foto (monteur rechts uitgeknipt) + lichtere verticale wash:
+     boven lichter zodat de monteur leesbaar is, naar beneden iets donkerder bij de tekst */
+  .ig-hero {
+    background-image:
+      linear-gradient(180deg,
+        rgba(11, 19, 31, .16) 0%,
+        rgba(11, 19, 31, .30) 40%,
+        rgba(11, 19, 31, .50) 70%,
+        rgba(11, 19, 31, .64) 100%),
+      url("../assets/hero-mobile.jpg");
+    background-size: cover;
+    background-position: 0% center;
+  }
+  /* mobiel: CTA-banner gelijkmatig donker (geen lichte randen achter tekst) */
+  .ig-cta {
+    background-image:
+      linear-gradient(rgba(11, 19, 31, .9), rgba(11, 19, 31, .9)),
+      url("../assets/cta-bg2.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  .ig-cta-actions { margin-right: 0; }   /* geen negatieve marge: geen overflow */
+
+  /* mobiel: lichte sluier over de subsidiefoto zodat de tekst leesbaar blijft */
+  .ig-subsidie-left {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, .88), rgba(255, 255, 255, .88)),
+      url("../assets/subsidie-bg.jpg");
+    background-size: cover;
+  }
+
+  /* kaart op volle breedte op mobiel */
+  .ig-wg-map img { width: 100%; height: auto; }
+  .ig-footer-grid { grid-template-columns: 1fr; gap: 2.2rem; }
+}
+
+/* ---- < 768px: reviews 1 kolom ---- */
+@media (max-width: 767.98px) {
+  .ig-reviews-title-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+
+  .ig-review-grid { grid-template-columns: 1fr; }
+  .ig-faq-title { font-size: 1.5rem; margin-bottom: 20px; }
+}
+
+/* ---- < 576px: telefoon ---- */
+@media (max-width: 575.98px) {
+  .ig-container { width: calc(100% - 36px); }
+
+  .ig-header-in { min-height: 64px; }
+  .ig-brand-img { height: 44px; }
+  .ig-brand-name { font-size: .92rem; }
+
+  .ig-hero { padding: 64px 0 44px; }
+  .ig-hero-title { font-size: 2.05rem; }
+  .ig-hero-script { font-size: 1.4rem; }
+  .ig-hero-list li { font-size: .92rem; }
+  .ig-hero-actions { flex-direction: column; align-items: stretch; }
+  .ig-hero-actions .ig-btn { width: 100%; }
+  .ig-hero-trust { flex-direction: column; align-items: flex-start; gap: .55rem; }
+  .ig-hero-trust span + span { border-left: none; padding-left: 0; margin-left: 0; }
+
+  .ig-usp-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+  .ig-usp-item { border-left: none !important; padding: 0; }
+
+  .ig-price-grid { grid-template-columns: 1fr; }
+
+  .ig-sub-btns { flex-direction: column; width: 100%; }
+  .ig-sub-btns .ig-btn { width: 100%; }
+
+  .ig-steps2 { gap: 18px; }
+
+  .ig-wg-cities { grid-template-columns: repeat(2, 1fr); }
+  .ig-wg-left h2 { font-size: 2rem; }
+  .ig-wg-regions li { font-size: 1.5rem; }
+
+  .ig-cta-left { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .ig-cta-title { font-size: 1.5rem; }
+  .ig-cta-feats { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .ig-cta-btn { width: 100%; }
+  .ig-cta-actions { flex-direction: column; align-items: stretch; }
+  /* alle drie de knoppen onder elkaar, zelfde breedte (zoals de referentie) */
+  .ig-cta-actions-row { width: 100%; flex-wrap: wrap; }
+  .ig-cta-actions-row .ig-cta-btn { flex: 1 1 100%; width: 100%; }
+  .ig-cta-wa {
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    border-radius: 8px;
+  }
+  .ig-cta-wa::after { content: "WhatsApp"; font-weight: 600; margin-left: 8px; }
+
+  /* formulier-notities mogen op smalle schermen wrappen */
+  .ig-form-notes { flex-wrap: wrap; white-space: normal; justify-content: center; }
+
+  .ig-footer-brand { flex-direction: column; align-items: flex-start; gap: 10px; }
+
+  .ig-wa { width: 52px; height: 52px; right: 16px; bottom: 16px; }
+  .ig-wa .ic { width: 27px; height: 27px; }
+}
