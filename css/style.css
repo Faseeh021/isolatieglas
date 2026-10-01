@@ -891,7 +891,9 @@ section[id] { scroll-margin-top: 16px; }
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 4px;
+  padding-top: 4px;            /* pijl op centraal hoogte van de nummercirkels 1-4 */
+  margin-left: -36px;          /* horizontaal naar het midden tussen de cirkels */
+  margin-right: 36px;          /* compensatie: totale tussenruimte blijft gelijk */
   flex: 0 0 auto;
 }
 .ig-step2-sep .ic {
@@ -1490,7 +1492,7 @@ section[id] { scroll-margin-top: 16px; }
   .ig-subsidie-right { padding: 40px 24px; }
 
   .ig-steps2 { flex-direction: column; gap: 22px; }
-  .ig-step2-sep { transform: rotate(90deg); margin: 0 auto; padding-top: 0; }
+  .ig-step2-sep { display: none; }   /* geen pijlen in de mobiele weergave */
 
   .ig-werkgebied-in { flex-direction: column; gap: 40px; }
   .ig-wg-left, .ig-wg-map, .ig-wg-card { width: 100%; text-align: center; }
